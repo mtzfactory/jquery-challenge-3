@@ -14,7 +14,7 @@ input.no-borders {
   border-bottom: 1px solid #F761A1;
   box-shadow: unset;
   border-radius: unset;
-  margin: 8px;
+  margin: 8px 8px 8px 0;
   width: 140px;
   text-align: left;
 }
@@ -63,7 +63,7 @@ section.spotifire {
       overflow: hidden;
 
       &.playing {
-        border: 2px solid white;
+        border: 1px solid white;
       }
 
       & h3, & h2, & h1, & i {
@@ -74,11 +74,11 @@ section.spotifire {
         padding: 5px 0;
       }
 
-      & h3 { top: 10%; }
+      & h3 { top: 6%; }
 
-      & h2 { top: 30%; color: #f8f8f8; }
+      & h2 { top: 20%; }
 
-      & h1 { top: 50%; }
+      & h1 { top: 55%; color: #f8f8f8; }
 
       & i { bottom: 0; }
 

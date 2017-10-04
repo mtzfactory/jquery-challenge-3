@@ -1,13 +1,14 @@
 
 // oAuth token: https://developer.spotify.com/web-api/console/get-search-item/
-var token = 'BQCsyapTnGz0qdgNMJElU98Eos3DtXTp23maFuEpA3e8mabwpQ9-cxac2RtlXtevTOQGOnqyJylhJpladj9osV-H3T9cRj0irvTrp2S4gZ7NNRmsYslPAeYFY0SGDTuTCbCtZZmv';
+var token = 'BQDrnS7aej53u3p4VuSScL827Ou78N-hMOwWDJz6wRwOVN4NjTjqoZb0Jl9ZWoY4gG6OOBYQzhzg03rKdvaVX6n53g0F0aUCboKRCuRCoJAwQjsQKtFoZZyxb7YM0B8zRfjKU2za';
 
 var spotifyQuery = '';
 
 var artistName = '';
 var albumName = '';
+var playingSongId = '';
 
-var snd;
+// var snd;
 
 var backgrounColorArtists = 'plum';
 var backgrounColorAlbums = 'gold';
@@ -21,6 +22,7 @@ var $message = $('.spotifire-form > .message');
 var $artistsList = $('.spotifire > .artists > .artists-list');
 var $albumsList = $('.spotifire > .albums > .albums-list');
 var $songsList = $('.spotifire > .songs > .songs-list');
+var $audio = $('#audio');
 
 $spotifireInput.focus();
 
@@ -37,7 +39,8 @@ function requestToSpotify(url, data, callBackFunction) {
 
 function requestErrorHandler(error) {
   console.error('>> request error: ', error.statusText);
-  $message.html('<span style="color: #BC0213;">' + error.statusText + '</span>');
+  var message = error.statusText === 'HTTP/2.0 401' ? 'Spotify token has expired' : error.statusText
+  $message.html('<span style="color: #BC0213;">' + message + '</span>');
 }
 
 // --- ARTISTS
@@ -137,6 +140,11 @@ function requestSongsHandler(json) {
 $('.spotifire-form').on('submit', function (event) {
   event.preventDefault();
 
+  // if (snd && !snd.paused)
+  //   snd.pause();
+  if (!$audio.paused)
+    $audio.trigger('pause');
+
   $artistsList.parent().show();
   $albumsList.parent().hide();
   $songsList.parent().hide();
@@ -182,29 +190,41 @@ $(document).on('click', 'li.album a', function (event) {
 $(document).on('click', 'li.song a', function (event) {
   event.preventDefault();
 
-  //if ($(this).find('.player').hasClass('playing')) {
-  var isPlaying = $songsList.find('.playing');
-  if (isPlaying.length > 0) {
-    snd.pause();
-    // $(this).find('.player').removeClass('playing');
-    // $(this).find('.player .fa').removeClass('fa-pause');
-    // $(this).find('.player .fa').addClass('fa-play');
-    isPlaying.removeClass('playing');
-    isPlaying.find('.fa').removeClass('fa-pause');
-    isPlaying.find('.fa').addClass('fa-play');
+  // if (snd && !snd.paused) {
+  //   snd.pause();
+  if (!$audio.paused) {
+    $audio.trigger('pause');
 
-    if (isPlaying.closest('a').data('song-id') === $(this).data('song-id'))
-      return null;
+    var isPlaying = $songsList.find('.playing');
+    isPlaying.removeClass('playing');
+
+    var playerButton = isPlaying.find('.fa')
+    playerButton.removeClass('fa-pause');
+    playerButton.addClass('fa-play');
   }
 
-  delete snd;
+  if (playingSongId === $(this).data('song-id')) {
+    playingSongId = '';
+    return null;
+  }
+
+  // delete snd;
 
   var songUrl = $(this).data('song-url');
   if (songUrl) {
-    snd = new Audio(songUrl);
-    snd.play();
-    $(this).find('.player .fa').addClass('fa-pause');
-    $(this).find('.player').addClass('playing');
+    // snd = new Audio(songUrl);
+    // snd.play();
+    $audio.attr('src', songUrl);
+    $audio.trigger('play');
+
+    var playerDiv = $(this).find('.player');
+    playerDiv.addClass('playing');
+
+    var playerButton =  playerDiv.find('.fa');
+    playerButton.removeClass('fa-play');
+    playerButton.addClass('fa-pause');
+
+    playingSongId = $(this).data('song-id');
   }
 });
 
@@ -225,4 +245,14 @@ $message.on('click', 'a', function () {
       $songsList.parent().hide();
       break;
   }
+});
+
+// --- ON AUDIO ENDED
+$audio.on('ended', function () {
+  var isPlaying = $songsList.find('.playing');
+  isPlaying.removeClass('playing');
+
+  var playerButton = isPlaying.find('.fa')
+  playerButton.removeClass('fa-pause');
+  playerButton.addClass('fa-play');
 });

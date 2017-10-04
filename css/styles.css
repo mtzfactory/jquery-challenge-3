@@ -14,7 +14,7 @@ input.no-borders {
   border-bottom: 1px solid #F761A1;
   box-shadow: unset;
   border-radius: unset;
-  margin: 8px;
+  margin: 8px 8px 8px 0;
   width: 140px;
   text-align: left; }
 
@@ -49,7 +49,7 @@ section.spotifire .songs {
     vertical-align: middle;
     overflow: hidden; }
     section.spotifire .songs .player.playing {
-      border: 2px solid white; }
+      border: 1px solid white; }
     section.spotifire .songs .player h3, section.spotifire .songs .player h2, section.spotifire .songs .player h1, section.spotifire .songs .player i {
       display: block;
       position: absolute;
@@ -57,12 +57,12 @@ section.spotifire .songs {
       margin: 0;
       padding: 5px 0; }
     section.spotifire .songs .player h3 {
-      top: 10%; }
+      top: 6%; }
     section.spotifire .songs .player h2 {
-      top: 30%;
-      color: #f8f8f8; }
+      top: 20%; }
     section.spotifire .songs .player h1 {
-      top: 50%; }
+      top: 55%;
+      color: #f8f8f8; }
     section.spotifire .songs .player i {
       bottom: 0; }
 
