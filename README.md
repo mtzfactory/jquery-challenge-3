@@ -7,7 +7,7 @@
 
 Otro reproductor pequeño reto de JQuery y  ajax. Las canciones
 
-Recuerda que deberás canviar el valor del **token** en la variable ```token``` en el fichero de ```app.js```
+Recuerda que deberás [canviar el valor del **token**](https://developer.spotify.com/web-api/console/get-search-item/) en la variable ```token``` en el fichero de ```app.js```
 
 Spotify proporciona token de duración determinada.
 
