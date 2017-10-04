@@ -5,7 +5,7 @@
 
 ### Spotifire website, con JQuery y Ajax.
 
-Otro reproductor basado en el gran Spotify, pequeño reto de JQuery y  ajax. Las canciones
+Otro reproductor basado en el gran _Spotify_, pequeño reto de JQuery y  ajax.
 
 Recuerda que deberás [canviar el valor del **token**](https://developer.spotify.com/web-api/console/get-search-item/) en la variable ```token```, del fichero ```app.js```
 
