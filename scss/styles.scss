@@ -1,0 +1,74 @@
+* {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+}
+
+body { background-color: plum; }
+
+input.no-borders {
+  color: hsla(52, 100%, 20%, 1.0);
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid #F761A1;
+  box-shadow: unset;
+  border-radius: unset;
+  margin: 8px;
+  width: 140px;
+  text-align: left;
+}
+
+/*
+ --
+ */
+header.header {
+  margin: 30px;
+
+  & form.spotifire-form {
+    & p { display: inline-block; }
+  }
+}
+
+/*
+ --
+ */
+section.spotifire {
+  & ul {
+    display: inline-block;
+
+    & li {
+      display: inline-block;
+
+      & a img {
+        width: 300px; height: 300px;
+      }
+    }
+  }
+
+  & .albums {
+    display: none;
+  }
+
+  & .songs {
+    display: none;
+
+    & .player {
+      display: inline-block;
+      width: 300px;
+      height: 300px;
+    }
+  }
+}
+
+/*
+ --
+ */
+.footer {
+	position: fixed;
+	top: 3px;
+  right: 3px;
+  width: calc(100% - 3px);
+	text-align: right;
+  p, p a { font-size: 12px; }
+  i.red { color: #BC0213; }
+}
