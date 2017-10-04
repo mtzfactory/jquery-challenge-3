@@ -3,9 +3,9 @@
 
 ## Full Stack Web Development Bootcamp @Otoño2017
 
-### Spotifire website con JQuery y Ajax.
+### Spotifire website, con JQuery y Ajax.
 
-Otro reproductor pequeño reto de JQuery y  ajax. Las canciones
+Otro reproductor basado en el gran Spotify, pequeño reto de JQuery y  ajax. Las canciones
 
 Recuerda que deberás [canviar el valor del **token**](https://developer.spotify.com/web-api/console/get-search-item/) en la variable ```token```, del fichero ```app.js```
 
