@@ -1,6 +1,7 @@
 * {
   font-family: 'Quicksand', sans-serif;
-  font-size: 16px; }
+  font-size: 16px;
+  box-sizing: border-box; }
 
 body {
   background-color: plum; }
@@ -40,9 +41,30 @@ section.spotifire .albums {
 section.spotifire .songs {
   display: none; }
   section.spotifire .songs .player {
-    display: inline-block;
+    _display: inline-block;
+    position: relative;
     width: 300px;
-    height: 300px; }
+    height: 300px;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden; }
+    section.spotifire .songs .player.playing {
+      border: 2px solid white; }
+    section.spotifire .songs .player h3, section.spotifire .songs .player h2, section.spotifire .songs .player h1, section.spotifire .songs .player i {
+      display: block;
+      position: absolute;
+      width: 100%;
+      margin: 0;
+      padding: 5px 0; }
+    section.spotifire .songs .player h3 {
+      top: 10%; }
+    section.spotifire .songs .player h2 {
+      top: 30%;
+      color: #f8f8f8; }
+    section.spotifire .songs .player h1 {
+      top: 50%; }
+    section.spotifire .songs .player i {
+      bottom: 0; }
 
 /*
  --
