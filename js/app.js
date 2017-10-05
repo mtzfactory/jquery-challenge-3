@@ -35,10 +35,15 @@ var SpotifireApi = {
   // -- TOKEN
   // https://developer.spotify.com/web-api/authorization-guide/#client-credentials-flow
   requestToken: function () {
+    console.log('-'.repeat(15));
+    console.log(this.apiKey, this.apiSecret);
     $.ajax({
-      dataType: "json",
-      data: { grant_type : 'client_credentials' },
-      header: { Authorization : 'Basic ' + Base64.encode(this.apiKey + ':' + this.apiSecret) },
+      data: { 'grant_type' : 'client_credentials' },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'Authorization' : 'Basic ' + btoa(this.apiKey + ':' + this.apiSecret) 
+      },
+      method: 'POST',
       url: 'https://accounts.spotify.com/api/token',
     }).then(function (resp) {
       console.log(resp);
@@ -173,10 +178,6 @@ $('.spotifire-form').on('submit', function (event) {
   spotifyQuery = $spotifireInput.val();
 
   if (spotifyQuery) {
-
-    if (SpotifireApi.token === '')
-      SpotifireApi.requestToken();
-
     var data = {
       q: spotifyQuery, //encodeURI(spotifyQuery),
       type: 'artist'
@@ -280,3 +281,10 @@ $audio.on('ended', function () {
   playerButton.removeClass('fa-pause');
   playerButton.addClass('fa-play');
 });
+
+console.log('--- COMO ---', SpotifireApi.token);
+
+if (SpotifireApi.token === '') {
+  console.log('--- TOKEN ---');
+  SpotifireApi.requestToken();
+}
