@@ -1,6 +1,6 @@
 
 // oAuth token: https://developer.spotify.com/web-api/console/get-search-item/
-var token = 'BQDrnS7aej53u3p4VuSScL827Ou78N-hMOwWDJz6wRwOVN4NjTjqoZb0Jl9ZWoY4gG6OOBYQzhzg03rKdvaVX6n53g0F0aUCboKRCuRCoJAwQjsQKtFoZZyxb7YM0B8zRfjKU2za';
+//var token = 'BQDrnS7aej53u3p4VuSScL827Ou78N-hMOwWDJz6wRwOVN4NjTjqoZb0Jl9ZWoY4gG6OOBYQzhzg03rKdvaVX6n53g0F0aUCboKRCuRCoJAwQjsQKtFoZZyxb7YM0B8zRfjKU2za';
 
 var spotifyQuery = '';
 
@@ -26,23 +26,43 @@ var $audio = $('#audio');
 
 $spotifireInput.focus();
 
-function requestToSpotify(url, data, callBackFunction) {
-  $.ajax({
-    dataType: "json",
-    url: url,
-    data: data,
-    headers: { Authorization: 'Bearer ' + token },
-    timeout: 2000,
-  }).then(callBackFunction)
-    .fail(requestErrorHandler);
-}
+var Base64 = {_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9\+\/\=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/\r\n/g,"\n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}
 
-function requestErrorHandler(error) {
-  console.error('>> request error: ', error.statusText);
-  var message = error.statusText === 'HTTP/2.0 401' ? 'Spotify token has expired' : error.statusText
-  $message.html('<span style="color: #BC0213;">' + message + '</span>');
-}
+var SpotifireApi = {
+  apiKey: '8eb8889dad5d4a4f8fa4ec40e472cb6d',
+  apiSecret: 'ac64eda063e247ee933c6e7e298df0b1',
+  token: '',
+  // -- TOKEN
+  // https://developer.spotify.com/web-api/authorization-guide/#client-credentials-flow
+  requestToken: function () {
+    $.ajax({
+      dataType: "json",
+      data: { grant_type : 'client_credentials' },
+      header: { Authorization : 'Basic ' + Base64.encode(this.apiKey + ':' + this.apiSecret) },
+      url: 'https://accounts.spotify.com/api/token',
+    }).then(function (resp) {
+      console.log(resp);
+    }).fail(this.requestErrorHandler);
+  },
 
+  // -- REQUEST
+  requestData: function (url, data, callBackFunction) {
+    $.ajax({
+      dataType: "json",
+      data: data,
+      headers: { Authorization: 'Bearer ' + this.token },
+      url: url,
+      timeout: 2000,
+    }).then(callBackFunction)
+      .fail(this.requestErrorHandler);
+  },
+
+  requestErrorHandler: function (error) {
+    console.error('>> request error: ', error.statusText);
+    var message = error.statusText === 'HTTP/2.0 401' ? 'Spotify token has expired' : error.statusText
+    $message.html('<span style="color: #BC0213;">' + message + '</span>');
+  }
+}
 // --- ARTISTS
 function requestArtistsHandler(json) {
   if (!json.artists) {
@@ -153,11 +173,15 @@ $('.spotifire-form').on('submit', function (event) {
   spotifyQuery = $spotifireInput.val();
 
   if (spotifyQuery) {
+
+    if (SpotifireApi.token === '')
+      SpotifireApi.requestToken();
+
     var data = {
       q: spotifyQuery, //encodeURI(spotifyQuery),
       type: 'artist'
     }
-    requestToSpotify(url, data, requestArtistsHandler);
+    SpotifireApi.requestData(url, data, requestArtistsHandler);
   }
   $spotifireInput.val('');
 });
@@ -171,7 +195,7 @@ $(document).on('click', 'li.artist a', function (event) {
 
   var url = 'https://api.spotify.com/v1/artists/' + artistId + '/albums';
 
-  requestToSpotify(url, null, requestAlbumsHandler);
+  SpotifireApi.requestData(url, null, requestAlbumsHandler);
 })
 
 // --- ON ALBUM CLICK
@@ -183,7 +207,7 @@ $(document).on('click', 'li.album a', function (event) {
 
   var url = 'https://api.spotify.com/v1/albums/' + albumId + '/tracks';
 
-  requestToSpotify(url, null, requestSongsHandler);
+  SpotifireApi.requestData(url, null, requestSongsHandler);
 })
 
 // --- ON SONG CLICK
