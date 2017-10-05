@@ -40,8 +40,9 @@ var SpotifireApi = {
     $.ajax({
       data: { 'grant_type' : 'client_credentials' },
       header: {
+        'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        'Authorization' : 'Basic ' + btoa(this.apiKey + ':' + this.apiSecret) 
+        'Authorization' : 'Basic OGViODg4OWRhZDVkNGE0ZjhmYTRlYzQwZTQ3MmNiNmQ6YWM2NGVkYTA2M2UyNDdlZTkzM2M2ZTdlMjk4ZGYwYjE='
       },
       method: 'POST',
       url: 'https://accounts.spotify.com/api/token',
