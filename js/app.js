@@ -65,7 +65,14 @@ var SpotifireApi = {
 
   _requestErrorHandler: function (error) {
     console.error('>> request error: ', error.statusText);
-    var message = error.statusText === 'HTTP/2.0 401' ? 'Spotify token has expired' : error.statusText
+    message = error.statusText;
+    if (message === 'HTTP/2.0 401') {
+      message = 'Spotify token has expired, requesting a new one';
+      SpotifireApi.requestToken()
+      .then(function() {
+        submitArtistResquest(spotifyQuery);
+      })
+    }
     $message.html('<span style="color: #BC0213;">' + message + '</span>');
   }
 }
