@@ -71,7 +71,7 @@ var SpotifireApi = {
 }
 
 // --- ARTISTS
-function requestArtistsHandler(json) {
+function processArtistsHandler(json) {
   if (!json.artists) {
     $message.text(spotifireInput.val() + ' is not an artist');
     return null;
@@ -99,7 +99,7 @@ function requestArtistsHandler(json) {
 }
 
 // --- ALBUMS
-function requestAlbumsHandler(json) {
+function processAlbumsHandler(json) {
   $artistsList.parent().hide();
 
   $albumsList.empty();
@@ -126,7 +126,7 @@ function requestAlbumsHandler(json) {
 }
 
 // --- SONGS
-function requestSongsHandler(json) {
+function processSongsHandler(json) {
   $albumsList.parent().hide();
 
   $songsList.empty();
@@ -173,17 +173,15 @@ $('.spotifire-form').on('submit', function (event) {
   if (SpotifireApi.token === '') {
     SpotifireApi.requestToken()
     .then(function() {
-        a();
+      submitResquest();
     })
     .fail(this._requestErrorHandler);
   } else {
-     a();
+    submitResquest();
   }
-    
-  
 });
 
-function a() {
+function submitResquest() {
   spotifyQuery = $spotifireInput.val();
   
     if (spotifyQuery) {
@@ -192,7 +190,7 @@ function a() {
         type: 'artist'
       }
       var url = 'https://api.spotify.com/v1/search/';
-      SpotifireApi.requestData(url, data, requestArtistsHandler);
+      SpotifireApi.requestData(url, data, processArtistsHandler);
     }
     $spotifireInput.val('');
 }
@@ -205,7 +203,7 @@ $(document).on('click', 'li.artist a', function (event) {
   var artistId = $(this).data('artist-id');
 
   var url = 'https://api.spotify.com/v1/artists/' + artistId + '/albums';
-  SpotifireApi.requestData(url, null, requestAlbumsHandler);
+  SpotifireApi.requestData(url, null, processAlbumsHandler);
 })
 
 // --- ON ALBUM CLICK
@@ -216,7 +214,7 @@ $(document).on('click', 'li.album a', function (event) {
   var albumId = $(this).data('album-id');
 
   var url = 'https://api.spotify.com/v1/albums/' + albumId + '/tracks';
-  SpotifireApi.requestData(url, null, requestSongsHandler);
+  SpotifireApi.requestData(url, null, processSongsHandler);
 })
 
 // --- ON SONG CLICK
