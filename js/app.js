@@ -28,24 +28,28 @@ var Base64 = {_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234
 var SpotifireApi = {
   clientId: '8eb8889dad5d4a4f8fa4ec40e472cb6d',
   clientSecret: 'ac64eda063e247ee933c6e7e298df0b1',
-  token: 'BQDFl581YZAtyKGlVknrKEi2QXzx5H7HzBGdMY86NeNSoSo7fPqX5DwDVJVLbEAoFk578exNiovZhwDSPxA5pA',
+  token: '',
   // -- TOKEN
   // oAuth token: https://developer.spotify.com/web-api/console/get-search-item/
   // https://developer.spotify.com/web-api/authorization-guide/#client-credentials-flow
   // --
   requestToken: function () {
-    const auth = btoa(`${this.clientId}:${this.clientSecret}`);
+    var auth = btoa(`${this.clientId}:${this.clientSecret}`);
 
-    $.ajax({
-      data: { grant_type : 'client_credentials' },
-      header: {
-        Authorization : `Basic ${auth}`
-      },
-      method: 'POST',
-      url: 'https://accounts.spotify.com/api/token'
-    }).then(function (resp) {
-      console.log(resp);
-    }).fail(this._requestErrorHandler);
+    var self = this;
+
+    return $.ajax({
+      // data: { grant_type : 'client_credentials' },
+      // header: {
+      //   Authorization : `Basic ${auth}`
+      // },
+      method: 'GET',
+      url: 'https://whispering-tundra-41801.herokuapp.com/api/v1/mtzfactory'
+    })
+    .then(function(resp) {
+      self.token = resp.token
+      return;
+    });
   },
 
   requestData: function (url, data, callBackFunction) {
@@ -166,18 +170,32 @@ $('.spotifire-form').on('submit', function (event) {
   $albumsList.parent().hide();
   $songsList.parent().hide();
 
-  var url = 'https://api.spotify.com/v1/search/';
-  spotifyQuery = $spotifireInput.val();
-
-  if (spotifyQuery) {
-    var data = {
-      q: spotifyQuery, //encodeURI(spotifyQuery),
-      type: 'artist'
-    }
-    SpotifireApi.requestData(url, data, requestArtistsHandler);
+  if (SpotifireApi.token === '') {
+    SpotifireApi.requestToken()
+    .then(function() {
+        a();
+    })
+    .fail(this._requestErrorHandler);
+  } else {
+     a();
   }
-  $spotifireInput.val('');
+    
+  
 });
+
+function a() {
+  spotifyQuery = $spotifireInput.val();
+  
+    if (spotifyQuery) {
+      var data = {
+        q: spotifyQuery, //encodeURI(spotifyQuery),
+        type: 'artist'
+      }
+      var url = 'https://api.spotify.com/v1/search/';
+      SpotifireApi.requestData(url, data, requestArtistsHandler);
+    }
+    $spotifireInput.val('');
+}
 
 // --- ON ARTIST CLICK
 $(document).on('click', 'li.artist a', function (event) {
@@ -187,7 +205,6 @@ $(document).on('click', 'li.artist a', function (event) {
   var artistId = $(this).data('artist-id');
 
   var url = 'https://api.spotify.com/v1/artists/' + artistId + '/albums';
-
   SpotifireApi.requestData(url, null, requestAlbumsHandler);
 })
 
@@ -199,7 +216,6 @@ $(document).on('click', 'li.album a', function (event) {
   var albumId = $(this).data('album-id');
 
   var url = 'https://api.spotify.com/v1/albums/' + albumId + '/tracks';
-
   SpotifireApi.requestData(url, null, requestSongsHandler);
 })
 
