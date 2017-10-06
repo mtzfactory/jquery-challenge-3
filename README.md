@@ -7,7 +7,9 @@
 
 Otro reproductor basado en el gran _Spotify_, pequeño reto de JQuery y  ajax.
 
-Recuerda que deberás [canviar el valor del **token**](https://developer.spotify.com/web-api/console/get-search-item/) en la variable ```token```, del fichero ```app.js```
+Para obtener un token fresco, me he creado un middleware que hace de proxy para obtener el token de Spotify...
+
+Si no quieres usar esa APi, recuerda que deberás [canviar el valor del **token**](https://developer.spotify.com/web-api/console/get-search-item/) en la variable ```token```, del fichero ```app.js```
 
 Spotify proporciona un token de duración determinada.
 
