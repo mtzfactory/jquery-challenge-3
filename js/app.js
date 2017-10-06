@@ -34,9 +34,8 @@ var SpotifireApi = {
   // https://developer.spotify.com/web-api/authorization-guide/#client-credentials-flow
   // --
   requestToken: function () {
-    var auth = btoa(`${this.clientId}:${this.clientSecret}`);
-
     var self = this;
+    //var auth = btoa(`${this.clientId}:${this.clientSecret}`);
 
     return $.ajax({
       // data: { grant_type : 'client_credentials' },
