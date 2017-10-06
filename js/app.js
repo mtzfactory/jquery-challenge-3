@@ -170,29 +170,29 @@ $('.spotifire-form').on('submit', function (event) {
   $albumsList.parent().hide();
   $songsList.parent().hide();
 
+  spotifyQuery = $spotifireInput.val();
+  $spotifireInput.val('');
+
   if (SpotifireApi.token === '') {
     SpotifireApi.requestToken()
     .then(function() {
-      submitResquest();
+      submitArtistResquest(spotifyQuery);
     })
     .fail(this._requestErrorHandler);
   } else {
-    submitResquest();
+    submitArtistResquest(spotifyQuery);
   }
 });
 
-function submitResquest() {
-  spotifyQuery = $spotifireInput.val();
-  
-    if (spotifyQuery) {
-      var data = {
-        q: spotifyQuery, //encodeURI(spotifyQuery),
-        type: 'artist'
-      }
-      var url = 'https://api.spotify.com/v1/search/';
-      SpotifireApi.requestData(url, data, processArtistsHandler);
+function submitArtistResquest(query) {
+  if (query) {
+    var data = {
+      q: query, //encodeURI(spotifyQuery),
+      type: 'artist'
     }
-    $spotifireInput.val('');
+    var url = 'https://api.spotify.com/v1/search/';
+    SpotifireApi.requestData(url, data, processArtistsHandler);
+  }
 }
 
 // --- ON ARTIST CLICK
