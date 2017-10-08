@@ -19,32 +19,27 @@ input.no-borders {
   text-align: left;
 }
 
-.button {
-	display: inline-block;
-	margin: 4px 2px;
-	padding: 6px 32px;
-	font-size: 16px;
-	color: white;
-	border: none;
-	border-radius: 4px;
-	text-align: center;
-	text-decoration: none;
-	cursor: pointer;
-  background-color: transparent;
-  
-  &.pink-gradient {
-    border-radius: 30px;
-    background-image: linear-gradient(135deg, #F761A1 10%, #8C1BAB 100%);
-  }
-}
-.button:focus {
-	outline: 0 !important
-}
-.button:active, a:active {
-	box-shadow: inset 0px 0px 0px 3px red;
-}
-.button:hover {
-	box-shadow: inset 0px 0px 0px 3px #f7f7f7;
+button.button, a.button, input.button {
+    display: inline-block;
+    margin: 4px 2px;
+    padding: 6px 32px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: transparent;
+
+    &:focus { outline: 0 !important }
+    &:active, & a:active { box-shadow: inset 0px 0px 0px 3px red; }
+    &:hover { box-shadow: inset 0px 0px 0px 3px #f7f7f7; }
+
+    &.pink-gradient {
+        border-radius: 30px;
+        background-image: linear-gradient(135deg, #F761A1 10%, #8C1BAB 100%);
+    }
 }
 
 /*
@@ -97,7 +92,7 @@ section.spotifire {
       overflow: hidden;
 
       &.playing {
-        border: 1px solid white;
+        box-shadow: inset 0px 0px 0px 2px white;
       }
 
       & h3, & h2, & h1, & i {

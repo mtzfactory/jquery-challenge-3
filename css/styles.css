@@ -18,7 +18,7 @@ input.no-borders {
   width: 140px;
   text-align: left; }
 
-.button {
+button.button, a.button, input.button {
   display: inline-block;
   margin: 4px 2px;
   padding: 6px 32px;
@@ -30,18 +30,15 @@ input.no-borders {
   text-decoration: none;
   cursor: pointer;
   background-color: transparent; }
-  .button.pink-gradient {
+  button.button:focus, a.button:focus, input.button:focus {
+    outline: 0 !important; }
+  button.button:active, button.button a:active, a.button:active, a.button a:active, input.button:active, input.button a:active {
+    box-shadow: inset 0px 0px 0px 3px red; }
+  button.button:hover, a.button:hover, input.button:hover {
+    box-shadow: inset 0px 0px 0px 3px #f7f7f7; }
+  button.button.pink-gradient, a.button.pink-gradient, input.button.pink-gradient {
     border-radius: 30px;
     background-image: linear-gradient(135deg, #F761A1 10%, #8C1BAB 100%); }
-
-.button:focus {
-  outline: 0 !important; }
-
-.button:active, a:active {
-  box-shadow: inset 0px 0px 0px 3px red; }
-
-.button:hover {
-  box-shadow: inset 0px 0px 0px 3px #f7f7f7; }
 
 /*
  -- HEADER
@@ -78,7 +75,7 @@ section.spotifire .songs {
     vertical-align: middle;
     overflow: hidden; }
     section.spotifire .songs .player.playing {
-      border: 1px solid white; }
+      box-shadow: inset 0px 0px 0px 2px white; }
     section.spotifire .songs .player h3, section.spotifire .songs .player h2, section.spotifire .songs .player h1, section.spotifire .songs .player i {
       display: block;
       position: absolute;
