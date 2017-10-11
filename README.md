@@ -13,7 +13,7 @@ Revisando la documentación al respecto, probando el metodo de autenticación [C
 
 El resultado de [la llamada al servicio][mtz-api] es como el siguiente, obteniendo un token válido y listo para ser utilizado en nuestra aplicación:
 
-    ```
+    ```json
     {
     "client": "37.223.99.71",
     "token": "BQAaxfp1MD_vd435Gl3aR-zBhX18EFIiP-qzrLA-rxMh_C464MBStKnBPWMUkY72tpMKQwxR650LazRcNx7WYg"
