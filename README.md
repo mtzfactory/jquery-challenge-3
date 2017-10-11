@@ -5,7 +5,7 @@
 
 ### Spotifire ~ con JQuery y Ajax.
 
-Otro reproductor basado en la gran _Spotify_, pequeño reto de JQuery y  ajax.
+Otro reproductor basado en la gran _Spotify_, pequeño reto de JQuery y  Ajax.
 
 Para poder realizar consultas a Spotiy, necesitamos obtener un token fresco que autorize dichas consultas en sus servidores. Tener en cuenta que spotify proporciona un token _de duración determinada_.
 
