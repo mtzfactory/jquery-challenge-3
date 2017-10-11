@@ -4,8 +4,6 @@
 ![html-5](https://mtzfactory.github.io/logos/png/html-5.png)
 ![css-3](https://mtzfactory.github.io/logos/png/css-3.png)
 
-## Full Stack Web Development Bootcamp @Otoño2017
-
 ### Spotifire ~ con JQuery y Ajax.
 
 Otro reproductor basado en la gran _Spotify_, pequeño reto de JQuery y  Ajax.
@@ -30,6 +28,8 @@ Si no quieres usar esa API,  deberás [canviar el valor del **token**][spotify-t
 ![artistas-screenshot-1](./img/screenshot-1.png)
 
 ![artistas-screenshot-1](./img/screenshot-2.png)
+
+#### SkylabCoders Academy - Full Stack Web Development Bootcamp
 
 [credentials-flow]: https://developer.spotify.com/web-api/authorization-guide/#client-credentials-flow
 
